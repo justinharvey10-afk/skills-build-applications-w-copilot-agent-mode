@@ -1,8 +1,13 @@
+
 from rest_framework import viewsets
-
-
+from django.contrib.auth.models import User
 from .models import Profile, Team, Activity, Workout, Leaderboard
-from .serializers import ProfileSerializer, TeamSerializer, ActivitySerializer, WorkoutSerializer, LeaderboardSerializer
+from .serializers import ProfileSerializer, TeamSerializer, ActivitySerializer, WorkoutSerializer, LeaderboardSerializer, UserSerializer
+
+# UserViewSet for /api/users/
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+	queryset = User.objects.all()
+	serializer_class = UserSerializer
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
