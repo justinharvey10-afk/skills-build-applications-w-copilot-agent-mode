@@ -22,7 +22,7 @@ from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from rest_framework.routers import DefaultRouter
 
-from users.views import ProfileViewSet
+from users.views import ProfileViewSet, TeamViewSet, ActivityViewSet, WorkoutViewSet, LeaderboardViewSet
 
 codespace_name = os.environ.get('CODESPACE_NAME')
 if codespace_name:
@@ -32,6 +32,10 @@ else:
 
 router = DefaultRouter()
 router.register(r'profiles', ProfileViewSet, basename='profile')
+router.register(r'teams', TeamViewSet, basename='team')
+router.register(r'activities', ActivityViewSet, basename='activity')
+router.register(r'workouts', WorkoutViewSet, basename='workout')
+router.register(r'leaderboard', LeaderboardViewSet, basename='leaderboard')
 
 
 @api_view(['GET'])
@@ -40,9 +44,14 @@ def api_root(request, format=None):
         'base_url': base_url,
         'admin': reverse('admin:index', request=request, format=format),
         'profiles': reverse('profile-list', request=request, format=format),
+        'teams': reverse('team-list', request=request, format=format),
+        'activities': reverse('activity-list', request=request, format=format),
+        'workouts': reverse('workout-list', request=request, format=format),
+        'leaderboard': reverse('leaderboard-list', request=request, format=format),
     })
 
 urlpatterns = [
+    path('', api_root, name='root'),
     path('admin/', admin.site.urls),
     path('api/', api_root, name='api-root'),
     path('api/', include(router.urls)),
